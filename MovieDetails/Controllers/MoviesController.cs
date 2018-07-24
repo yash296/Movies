@@ -16,10 +16,28 @@ namespace MovieDetails.Controllers
         private DetailsContext db = new DetailsContext();
 
         // GET: Movies
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder)
         {
-            var movies = db.Movies.Include(m => m.Actors).Include(m => m.Producers);
-            return View(movies.ToList());
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+            var movies = from s in db.Movies
+                         select s;
+            switch (sortOrder) {
+                case "name_desc":
+                    movies = db.Movies.OrderByDescending(s => s.MovieName).Include(m => m.Actors).Include(m => m.Producers);
+                    break;
+                case "Date":
+                    movies = db.Movies.OrderBy(s => s.MovieRelease).Include(m => m.Actors).Include(m => m.Producers);
+                    break;
+                default:
+                    movies = db.Movies.OrderBy(s => s.MovieName).Include(m => m.Actors).Include(m => m.Producers);
+                    break;
+
+
+
+            }
+        return View(movies.ToList());
+        
         }
 
         // GET: Movies/Details/5
