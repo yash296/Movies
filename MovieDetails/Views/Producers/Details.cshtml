@@ -33,6 +33,25 @@
         <dd>
             @Html.DisplayFor(model => model.ProducerDob)
         </dd>
+        <dd>
+            <table class="table">
+                <tr>
+                    <th>Movie Title</th>
+                    <th>Actors</th>
+                </tr>
+                @foreach (var item in Model.Movies)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MovieName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Actors.ActorName)
+                        </td>
+                    </tr>
+                }
+            </table>
+        </dd>
 
     </dl>
 </div>

@@ -16,9 +16,15 @@ namespace MovieDetails.Controllers
         private DetailsContext db = new DetailsContext();
 
         // GET: Producers
-        public ActionResult Index()
+        public ViewResult Index( string searchString)
         {
-            return View(db.Producers.ToList());
+            var producers = from s in db.Producers
+                         select s;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                producers  = producers.Where(s => s.ProducerName.Contains(searchString));
+            }
+            return View(producers.OrderBy(s=>s.ProducerName).ToList());
         }
 
         // GET: Producers/Details/5
@@ -29,6 +35,7 @@ namespace MovieDetails.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Producer producer = db.Producers.Find(id);
+            
             if (producer == null)
             {
                 return HttpNotFound();

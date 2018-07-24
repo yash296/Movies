@@ -9,10 +9,17 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+@using (Html.BeginForm())
+{
+    <p>
+        Find by name: @Html.TextBox("SearchString")
+        <input type="submit" value="Search" />
+    </p>
+}
 <table class="table">
     <tr>
         <th>
-            @Html.ActionLink("Actor Name","Index",new { sortOrder = ViewBag.NameSortParm })
+            @Html.ActionLink("Actor Name", "Index", new { sortOrder = ViewBag.NameSortParm })
         </th>
         <th>
             @Html.DisplayNameFor(model => model.ActorSex)
@@ -26,26 +33,27 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ActorName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ActorSex)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ActorBio)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ActorDOB)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ActorID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ActorID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ActorID })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ActorName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ActorSex)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ActorBio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ActorDOB)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ActorID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ActorID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ActorID })
+            </td>
+        </tr>
+    }
 
 </table>

@@ -16,21 +16,25 @@ namespace MovieDetails.Controllers
         private DetailsContext db = new DetailsContext();
 
         // GET: Movies
-        public ActionResult Index(string sortOrder)
+        public ViewResult Index(string sortOrder, string searchString)
         {
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
             var movies = from s in db.Movies
                          select s;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                movies = movies.Where(s => s.MovieName.Contains(searchString));
+            }
             switch (sortOrder) {
                 case "name_desc":
-                    movies = db.Movies.OrderByDescending(s => s.MovieName).Include(m => m.Actors).Include(m => m.Producers);
+                    movies = movies.OrderByDescending(s => s.MovieName).Include(m => m.Actors).Include(m => m.Producers);
                     break;
                 case "Date":
-                    movies = db.Movies.OrderBy(s => s.MovieRelease).Include(m => m.Actors).Include(m => m.Producers);
+                    movies = movies.OrderBy(s => s.MovieRelease).Include(m => m.Actors).Include(m => m.Producers);
                     break;
                 default:
-                    movies = db.Movies.OrderBy(s => s.MovieName).Include(m => m.Actors).Include(m => m.Producers);
+                    movies = movies.OrderBy(s => s.MovieName).Include(m => m.Actors).Include(m => m.Producers);
                     break;
 
 
