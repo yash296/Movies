@@ -62,7 +62,10 @@ namespace MovieDetails.Controllers
         // GET: Movies/Create
         public ActionResult Create()
         {
-            ViewBag.ActorID = new SelectList(db.Actors, "ActorID", "ActorName");
+          
+        
+                ViewBag.ActorID = new SelectList(db.Actors, "ActorID", "ActorName");
+           
             ViewBag.ProducerID = new SelectList(db.Producers, "ProducerID", "ProducerName");
             return View();
         }
@@ -80,8 +83,9 @@ namespace MovieDetails.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
-            ViewBag.ActorID = new SelectList(db.Actors, "ActorID", "ActorName", movie.ActorID);
+            
+                ViewBag.ActorID = new SelectList(db.Actors, "ActorID", "ActorName", movie.ActorID);
+            
             ViewBag.ProducerID = new SelectList(db.Producers, "ProducerID", "ProducerName", movie.ProducerID);
             return View(movie);
         }
